@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class TextUndoRedo implements KeyListener {
@@ -61,12 +62,22 @@ public class TextUndoRedo implements KeyListener {
 	}
 
 	public void delete() {
-		String s = label.getText();
-		label.setText(s.substring(0, s.length() - 2));
+		if (character.size() > 0) {
+			String s = label.getText();
+			label.setText(s.substring(0, s.length() - 2));
+			deleted.push(s.charAt(s.length() - 2));
+		} else {
+			JOptionPane.showMessageDialog(null, "Nothing to delete");
+		}
 	}
 
 	public void undo() {
-		deleted.push(character.pop());
+		if (deleted.size() > 0) {
+			character.push(deleted.pop());
+			setLabel();
+		} else {
+			JOptionPane.showMessageDialog(null, "Nothing to undo");
+		}
 	}
 
 	@Override
@@ -83,7 +94,7 @@ public class TextUndoRedo implements KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 			delete();
 		}
-		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		if (e.getKeyCode() == KeyEvent.VK_DELETE) {
 			undo();
 		}
 	}
