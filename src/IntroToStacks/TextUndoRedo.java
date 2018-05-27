@@ -52,26 +52,26 @@ public class TextUndoRedo implements KeyListener {
 	 * 
 	 */
 	public void setLabel() {
-		char car = '\0';
 		letter = "";
 		for (int i = 0; i < character.size(); i++) {
-			car = character.pop();
-			letter += car;
+			letter += character.pop();
 		}
 		label.setText(label.getText() + letter);
 	}
 
 	public void delete() {
-		if (character.size() > 0) {
-			String s = label.getText();
-			label.setText(s.substring(0, s.length() - 2));
-			deleted.push(s.charAt(s.length() - 2));
+		String s = label.getText();
+		System.out.println(s.length());
+		if (s.length() > 0) {
+			label.setText(s.substring(0, s.length() - 1));
+			deleted.push(s.charAt(s.length() - 1));
 		} else {
 			JOptionPane.showMessageDialog(null, "Nothing to delete");
 		}
 	}
 
 	public void undo() {
+		System.out.println(deleted.size());
 		if (deleted.size() > 0) {
 			character.push(deleted.pop());
 			setLabel();
@@ -89,13 +89,13 @@ public class TextUndoRedo implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		character.push(e.getKeyChar());
-		setLabel();
 		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 			delete();
-		}
-		if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+		} else if (e.getKeyCode() == KeyEvent.VK_DELETE) {
 			undo();
+		} else {
+			character.push(e.getKeyChar());
+			setLabel();
 		}
 	}
 

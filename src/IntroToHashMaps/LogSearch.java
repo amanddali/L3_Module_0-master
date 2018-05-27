@@ -1,6 +1,42 @@
 package IntroToHashMaps;
 
-public class LogSearch {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+public class LogSearch implements ActionListener {
+	JFrame frame = new JFrame();
+	JPanel panel = new JPanel();
+	JButton b1 = new JButton("Add Entry");
+	JButton b2 = new JButton("Search by ID");
+	JButton b3 = new JButton("View List");
+	String newID;
+	String newName;
+	Integer number;
+	HashMap<Integer, String> students = new HashMap<>();
+	
+	public static void main(String[] args) {
+		LogSearch stuff = new LogSearch();
+		stuff.createGUI();
+	}
+	
+	public void createGUI() {
+		frame.setVisible(true);
+		frame.add(panel);
+		panel.add(b1);
+		panel.add(b2);
+		panel.add(b3);
+		b1.addActionListener(this);
+		b2.addActionListener(this);
+		b3.addActionListener(this);
+		frame.pack();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
   /* 
 	 * Crate a HashMap of Integers for the keys and Strings for the values.
 	 * Create a GUI with three buttons. 
@@ -28,4 +64,24 @@ public class LogSearch {
 	 * 				is not in the list. 
 	 *
 	 * */
+	public void addEntry() {
+		newID = JOptionPane.showInputDialog("Enter a new ID number");
+		newName = JOptionPane.showInputDialog("Enter a new name");
+		number = Integer.parseInt(newID);
+		students.put(number, newName);
+	}
+	
+	public void searchID() {
+		JOptionPane.showInputDialog("Enter existing ID");
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource().equals(b1)) {
+			addEntry();
+		}
+	}
+	
+	
 }
